@@ -11,7 +11,7 @@ import wikisearch.wiki_search.dto.WikiArticleDto;
 import wikisearch.wiki_search.repository.SearchHistoryRepository;
 import wikisearch.wiki_search.entity.SearchHistory;
 import wikisearch.wiki_search.service.WikiArticleService;
-import wikisearch.wiki_search.exception.ResourceNotFoundException;
+import wikisearch.wiki_search.service.RequestCounterService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,17 +25,20 @@ public class WikiArticleCrudController {
     private final SimpleCache cache;
     private final SearchHistoryRepository historyRepo;
     private final WikiArticleService articleService;
+    private final RequestCounterService requestCounterService;
 
     @Autowired
-    public WikiArticleCrudController(WikiArticleRepository articleRepo, SimpleCache cache, SearchHistoryRepository historyRepo, WikiArticleService articleService) {
+    public WikiArticleCrudController(WikiArticleRepository articleRepo, SimpleCache cache, SearchHistoryRepository historyRepo, WikiArticleService articleService, RequestCounterService requestCounterService) {
         this.articleRepo = articleRepo;
         this.cache = cache;
         this.historyRepo = historyRepo;
         this.articleService = articleService;
+        this.requestCounterService = requestCounterService;
     }
 
     @GetMapping
     public List<WikiArticleDto> getAll() {
+        requestCounterService.incrementOnAnyRequest();
         return articleRepo.findAll().stream()
             .map(a -> new WikiArticleDto(a.getId(), a.getTitle(), a.getContent()))
             .collect(Collectors.toList());
@@ -43,6 +46,7 @@ public class WikiArticleCrudController {
 
     @GetMapping("/{id:\\d+}")
     public WikiArticleDto getById(@PathVariable Long id) {
+        requestCounterService.incrementOnAnyRequest();
         return articleRepo.findById(id)
             .map(a -> new WikiArticleDto(a.getId(), a.getTitle(), a.getContent()))
             .orElse(null);
@@ -50,12 +54,14 @@ public class WikiArticleCrudController {
 
     @PostMapping
     public WikiArticleDto create(@RequestBody WikiArticle article) {
+        requestCounterService.incrementOnAnyRequest();
         WikiArticle saved = articleRepo.save(article);
         return new WikiArticleDto(saved.getId(), saved.getTitle(), saved.getContent());
     }
 
     @PostMapping("/bulk")
     public List<WikiArticleDto> createBulk(@RequestBody List<WikiArticle> articles) {
+        requestCounterService.incrementOnAnyRequest();
         return articleService.createArticlesBulk(articles);
     }
 
@@ -74,6 +80,7 @@ public class WikiArticleCrudController {
     @Transactional
     @GetMapping("/by-term")
     public List<WikiArticleDto> getByTerm(@RequestParam String term) {
+        requestCounterService.incrementOnAnyRequest();
         @SuppressWarnings("unchecked")
         List<WikiArticleDto> cached = (List<WikiArticleDto>) cache.get("term:" + term);
         if (cached != null) {

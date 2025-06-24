@@ -89,7 +89,7 @@ public class WikiArticleService {
 
     public WikiArticleDto searchAndSaveFromWiki(String term) {
         String url = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&exintro=true&explaintext=true&titles=" + term;
-        String response = new org.springframework.web.client.RestTemplate().getForObject(url, String.class);
+        String response = restTemplate.getForObject(url, String.class);
         String extract;
         if (response != null && response.contains("extract")) {
             extract = response.split("\"extract\":\"")[1].split("\"")[0];

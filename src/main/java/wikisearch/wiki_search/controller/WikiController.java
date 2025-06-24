@@ -3,7 +3,6 @@ package wikisearch.wiki_search.controller;
 import wikisearch.wiki_search.entity.WikiArticle;
 import wikisearch.wiki_search.service.WikiArticleService;
 import wikisearch.wiki_search.service.RequestCounterService;
-import wikisearch.wiki_search.exception.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
@@ -22,6 +21,7 @@ public class WikiController {
 
     @GetMapping("/search")
     public WikiArticle search(@RequestParam String term) {
+        requestCounterService.incrementOnAnyRequest();
         if ("Java".equalsIgnoreCase(term)) {
             requestCounterService.increment();
         }
@@ -30,6 +30,7 @@ public class WikiController {
 
     @PostMapping("/search/bulk")
     public List<WikiArticle> bulkSearch(@RequestBody List<BulkSearchRequest> requests) {
+        requestCounterService.incrementOnAnyRequest();
         int javaCount = (int) requests.stream().filter(r -> r.getTitle() != null && r.getTitle().toLowerCase().contains("java")).count();
         if (javaCount > 0) {
             requestCounterService.increment(javaCount);
@@ -39,7 +40,13 @@ public class WikiController {
 
     @GetMapping("/search/java-count")
     public int getJavaSearchCount() {
+        requestCounterService.incrementOnAnyRequest();
         return requestCounterService.getCount();
+    }
+
+    @PostMapping("/search/java-count/reset")
+    public void resetJavaSearchCount() {
+        requestCounterService.reset();
     }
 
     public static class BulkSearchRequest {

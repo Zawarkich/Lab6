@@ -28,11 +28,20 @@ public class RequestCounterService {
         cache.put("request_count", count);
     }
 
+    public synchronized void reset() {
+        count = 0;
+        cache.put("request_count", count);
+    }
+
     public synchronized int getCount() {
         Object cached = cache.get("request_count");
         if (cached instanceof Integer) {
             return (Integer) cached;
         }
         return count;
+    }
+
+    public synchronized void incrementOnAnyRequest() {
+        increment();
     }
 }
