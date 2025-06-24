@@ -11,6 +11,7 @@ import wikisearch.wiki_search.dto.WikiArticleDto;
 import wikisearch.wiki_search.repository.SearchHistoryRepository;
 import wikisearch.wiki_search.entity.SearchHistory;
 import wikisearch.wiki_search.service.WikiArticleService;
+import wikisearch.wiki_search.exception.ResourceNotFoundException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

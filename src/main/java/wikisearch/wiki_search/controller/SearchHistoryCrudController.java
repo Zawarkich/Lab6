@@ -3,6 +3,7 @@ package wikisearch.wiki_search.controller;
 import org.springframework.web.bind.annotation.*;
 import wikisearch.wiki_search.entity.SearchHistory;
 import wikisearch.wiki_search.repository.SearchHistoryRepository;
+import wikisearch.wiki_search.exception.ResourceNotFoundException;
 import java.util.List;
 
 @RestController

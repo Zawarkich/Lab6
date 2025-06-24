@@ -3,6 +3,7 @@ package wikisearch.wiki_search.controller;
 import wikisearch.wiki_search.entity.WikiArticle;
 import wikisearch.wiki_search.service.WikiArticleService;
 import wikisearch.wiki_search.service.RequestCounterService;
+import wikisearch.wiki_search.exception.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;

@@ -1,4 +1,4 @@
-package wikisearch.wiki_search.controller;
+package wikisearch.wiki_search.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
