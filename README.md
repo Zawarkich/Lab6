@@ -5,6 +5,8 @@ Strong enough for big amount of data
 Сантоцкий И.С.
 
 ![image](https://github.com/user-attachments/assets/ee449d98-8e3e-4310-867d-953858658f3c)
-![image](https://github.com/user-attachments/assets/2b5bd5d5-2206-4296-b82d-30041491cee2)
+
+![image](https://github.com/user-attachments/assets/895ab77d-63e1-44c5-9418-c723afbc6854)
+
 
 
