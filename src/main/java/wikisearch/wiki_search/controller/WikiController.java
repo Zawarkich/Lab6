@@ -44,7 +44,7 @@ public class WikiController {
         return requestCounterService.getCount();
     }
 
-    @PostMapping("/search/java-count/reset")
+    @GetMapping("/search/java-count/reset")
     public void resetJavaSearchCount() {
         requestCounterService.reset();
     }
